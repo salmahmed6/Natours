@@ -4,7 +4,7 @@ const app = require('./app');
 
 dotenv.config({ path: './config.env'});
 
-const DB = process.env.MONGO_URL;
+const DB = process.env.MONGO;
 mongoose.connect(DB, {
     useNewUrlParser: true,
     // useCreateIndex: true,
@@ -15,6 +15,20 @@ mongoose.connect(DB, {
 }).catch(err => {
     console.error('Database connection error:', err)
 });
+
+
+const testTour = new Tour({
+    name: 'the Park Camper',
+    price: 997
+});
+
+testTour
+    .save()
+    .then(doc => {
+        console.log(doc);
+    }).catch(err => {
+        console.log('Error', err);
+    });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
