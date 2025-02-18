@@ -11,6 +11,13 @@ const router = express.Router();
 //add it to the post handler stack
 
 router
+    .route('/top-5-cheap')
+    .get(catchAsync(tourController.aliasTopTours), catchAsync(tourController.getAllTours));
+
+router.route('/tour-status').get(tourController.getTourStatus);
+router.route('/monthly-plan/:year').get(catchAsync(tourController.getMonthlyPlan));
+
+router
     .route('/')
     .get(tourController.getAllTours)
     .post(tourController.createTour);
