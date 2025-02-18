@@ -1,21 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = require('./app');
+const { default: connectDB } = require('./config/data');
 
-dotenv.config({ path: './config.env'});
+dotenv.config();
 
-const DB = process.env.MONGO;
-mongoose.connect(DB, {
-    useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false
-}).then(con => {
-    console.log(con.connection);
-    console.log('DB connection successful');
-}).catch(err => {
-    console.error('Database connection error:', err)
-});
-
+//connect to DB
+connectDB();
 
 // const testTour = new Tour({
 //     name: 'the Park Camper',
@@ -32,5 +23,5 @@ mongoose.connect(DB, {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`App running on port ${port}..`);
+  console.log(`App running on port ${port}..`);
 });
