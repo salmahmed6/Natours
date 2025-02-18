@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+
+process.on('uncaughtException', (err) => {
+  console.log('UNHANDLE REJECTION shutting down..');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 const app = require('./app');
 const { default: connectDB } = require('./config/data');
 
@@ -14,8 +21,8 @@ app.listen(port, () => {
 });
 
 process.on('unhandleRejection', (err) => {
-  console.log(err.name, err.message);
-  console.log('UNHANDLE REJECTION');
+  console.log('UNHANDLE REJECTION shutting down..');
+  console.log(err);
   server.close(() => {
     process.exit(1);
   });
