@@ -1,4 +1,4 @@
-const AppError = require('../utils/appError');
+const AppError = require('../utils/appErrors.js');
 
 const handleCastErrorDB = (err) => {
   const message = `Invalid ${err.message}: ${err.value}.`;
@@ -6,7 +6,6 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   console.log(value);
 
@@ -14,14 +13,12 @@ const handleDuplicateFieldsDB = (err) => {
   return new AppError(message, 400);
 };
 
-
 const handleValidationErrorDB = (err) => {
-  
   const errors = Object.values(err.errors).map((el) => el.message);
 
   const message = `Invalid input data.${errors.join(', ')}`;
   return new AppError(message, 400);
-}
+};
 
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
@@ -51,9 +48,6 @@ const sendErrorPod = (err, res) => {
   }
 };
 
-
-
-
 module.exports = (err, req, res, next) => {
   //console.log(err.stack);
 
@@ -67,7 +61,8 @@ module.exports = (err, req, res, next) => {
 
     if (err.name === 'CastError') err = handleCastErrorDB(err);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    if(error.name === 'ValidationError') error = handleValidationErrorDB(error);
+    if (error.name === 'ValidationError')
+      error = handleValidationErrorDB(error);
     sendErrorPod(error, res);
   }
 };

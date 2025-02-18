@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
 
 const AppError = require('./utils/appErrors.js');
 const globalErrorHandler = require('./controllers/errorController.js');
