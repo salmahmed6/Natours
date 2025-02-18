@@ -1,5 +1,6 @@
-const express = require ('express');
+const express = require('express');
 const tourController = require('./../controllers/tourController.js');
+const catchAsync = require('./../utils/catchAsync.js');
 
 const router = express.Router();
 
@@ -10,22 +11,27 @@ const router = express.Router();
 //if not, send back 400(bad request)
 //add it to the post handler stack
 
-router
-    .route('/top-5-cheap')
-    .get(catchAsync(tourController.aliasTopTours), catchAsync(tourController.getAllTours));
+// router
+//   .route('/top-5-cheap')
+//   .get(
+//     catchAsync(tourController.aliasTopTours),
+//     catchAsync(tourController.getAllTours)
+//   );
 
-router.route('/tour-status').get(tourController.getTourStatus);
-router.route('/monthly-plan/:year').get(catchAsync(tourController.getMonthlyPlan));
+// router.route('/tour-status').get(tourController.getTourStatus);
+// router
+//   .route('/monthly-plan/:year')
+//   .get(catchAsync(tourController.getMonthlyPlan));
 
 router
-    .route('/')
-    .get(tourController.getAllTours)
-    .post(tourController.createTour);
+  .route('/')
+  .get(tourController.getAllTours)
+  .post(tourController.createTour);
 
 router
-    .route('/:id')
-    .get(tourController.getTour)
-    .patch(tourController.updateTour)
-    .delete(tourController.deleteTour);
+  .route('/:id')
+  .get(tourController.getTour)
+  .patch(tourController.updateTour)
+  .delete(tourController.deleteTour);
 
 module.exports = router;
