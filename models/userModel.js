@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 //name, email, password, passwordConfirm
 
@@ -32,11 +34,24 @@ const userSchema = new mongoose.Schema({
       'Password should be at least 8 characters long, contain a uppercase letter, a lowercase letter, a number, and a special character',
     ],
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-  },
+    passwordConfirm: {
+        type: String,
+        required: [true, 'Please confirm your password'],
+        validate: {
+            validator: function(el) {
+                return el === this.password;
+            }
+        }
+    },
 });
+
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+
+    this.password = await bcrypt.hash(this.password, 33);
+    this.passwordConfirm = undefined;
+    next();
+})
 
 const User = mongoose.model('User', userSchema);
 
