@@ -1,6 +1,7 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController.js');
 const catchAsync = require('./../utils/catchAsync.js');
+const authController = require('./../utils/authController.js');
 
 const router = express.Router();
 
@@ -11,21 +12,21 @@ const router = express.Router();
 //if not, send back 400(bad request)
 //add it to the post handler stack
 
-// router
-//   .route('/top-5-cheap')
-//   .get(
-//     catchAsync(tourController.aliasTopTours),
-//     catchAsync(tourController.getAllTours)
-//   );
+router
+  .route('/top-5-cheap')
+  .get(
+    catchAsync(tourController.aliasTopTours),
+    catchAsync(tourController.getAllTours)
+  );
 
-// router.route('/tour-status').get(tourController.getTourStatus);
-// router
-//   .route('/monthly-plan/:year')
-//   .get(catchAsync(tourController.getMonthlyPlan));
+router.route('/tour-status').get(tourController.getTourStatus);
+router
+  .route('/monthly-plan/:year')
+  .get(catchAsync(tourController.getMonthlyPlan));
 
 router
   .route('/')
-  .get(tourController.getAllTours)
+  .get(authController.protect, tourController.getAllTours)
   .post(tourController.createTour);
 
 router
