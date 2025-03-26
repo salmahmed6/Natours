@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appErrors');
+const sendEmail = require('./../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -92,7 +93,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   //4 check if user changed password after the token was issued
-  if (currentUser.changesPasswordAfter(decode, iat)) {
+  if (currentUser.changesPasswordAfter(decode, int)) {
     return next(
       new AppError('User recently changed password! please login again', 401)
     );
@@ -114,3 +115,42 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  //1- get user based on posted email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('there is no user with this email address'), 404);
+  }
+  //2- generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  //3- send it to user's email
+  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetpassword/${resetToken}`;
+
+  const message = `Forgot your password? submit a patch with your new password and password confirm
+  to: ${resetURL}.\nIf you didn't forget your password, please ignore this email`;
+
+  try{
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token is valid for 10 min',
+      message
+    })
+  
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email'
+    });
+  }catch(err){
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({validateBeforeSave: false});
+
+    return next(new AppError('There is an error sending the email. Try again later'), 500);
+  }
+  
+});
+
+exports.ResetPassword = (req, res, next) => {};
