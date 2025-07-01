@@ -1,7 +1,7 @@
 const express = require('express');
-const tourController = require('./../controllers/tourController.js');
-const catchAsync = require('./../utils/catchAsync.js');
-const authController = require('./../utils/authController.js');
+const tourController = require('./../controllers/tourController');
+const catchAsync = require('./../utils/catchAsync');
+const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
@@ -34,8 +34,8 @@ router
   .get(tourController.getTour)
   .patch(tourController.updateTour)
   .delete(
-    authController.protect, 
-    authController.restrictTo('admin', 'lead-guide') ,
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
     authController.deleteTour
   );
 
