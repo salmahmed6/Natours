@@ -2,10 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 
-const AppError = require('./utils/appErrors.js');
-const globalErrorHandler = require('./controllers/errorController.js');
-const tourRouter = require('./routes/tourRoutes.js');
-const userRouter = require('./routes/userRoutes.js');
+const AppError = require('./utils/appErrors');
+const globalErrorHandler = require('./controllers/errorController');
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
