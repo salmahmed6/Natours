@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const tourSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true,'A tour must have a name'],
+        required: [true, 'A tour must have a name'],
         unique: true,
         trim: true
     },
@@ -15,33 +15,33 @@ const tourSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'A tour must have a group size']
     },
-    difficulty:{
+    difficulty: {
         type: String,
         required: [true, 'A tour must have a diffuculity']
     },
-    ratingsAverage:{
+    ratingsAverage: {
         type: Number,
         dafault: 4.5
     },
-    ratingsQuantity:{
+    ratingsQuantity: {
         type: Number,
         default: 0
     },
-    price:{
+    price: {
         type: Number,
         require: [true, 'A tour must have a price']
     },
     priceDiscount: Number,
-    summary:{
+    summary: {
         type: String,
-        trim: true ,
+        trim: true,
         required: [true, "A tour must have a description"]
     },
-    description:{
+    description: {
         type: String,
         trim: true
     },
-    imageCover:{
+    imageCover: {
         type: String,
         required: [true, "A tour must have a cover image"]
     },
@@ -50,8 +50,35 @@ const tourSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    startDates: [Date]
-    
+    startDates: [Date],
+    secretTour: {
+        type: Boolean,
+        default: false
+    },
+    startLocation: {
+        type: {
+            type: String,
+            default: 'Point',
+            enum: ['Point']
+        },
+        coordinates: [Number],
+        address: String,
+        description: String
+    },
+    locations: [
+        {
+            type: {
+                type: String,
+                default: 'Point',
+                enum: ['Point']
+            },
+            coordinates: [Number],
+            address: String,
+            description: String,
+            day: Number
+        }
+    ]
+
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
