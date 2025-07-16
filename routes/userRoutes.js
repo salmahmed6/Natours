@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const reviewController = require('./../controllers/reviewController.js');
 
 const router = express.Router();
 
@@ -13,8 +14,15 @@ router.post('/resetPassword/:token', authController.resetPassword);
 
 router.patch('/updateMyPassword', authController.protect, authController.updatePassword);
 
+router.get(
+  '/me',
+  authController.protect,
+  userController.getMe,
+  userController.getUser
+);
+
 router.patch('/updateMe', authController.protect, userController.updateMe);
-//router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 router
   .route('/')
@@ -23,7 +31,8 @@ router
 
 router
   .route('/:id')
-  //.get(userController.getUser)
+  .get(userController.getUser)
   .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 module.exports = router;
