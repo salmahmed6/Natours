@@ -1,5 +1,5 @@
-const Tour = require('./../models/tourModel');
-const catchAsync = require('./../utils/catchAsync');
+const Tour = require('../models/tourModel.js');
+const catchAsync = require('../utils/catchAsync.js');
 //const AppError = require('./../utils/appErrors.js');
 const factory = require('./handlerFactory.js')
 exports.aliasTopTours = (req, res, next) => {
