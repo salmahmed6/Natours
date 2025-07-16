@@ -15,7 +15,7 @@ router.post('/resetPassword/:token', authController.resetPassword);
 router.patch('/updateMyPassword', authController.protect, authController.updatePassword);
 
 router.patch('/updateMe', authController.protect, userController.updateMe);
-//router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 router
   .route('/')
@@ -24,16 +24,8 @@ router
 
 router
   .route('/:id')
-  //.get(userController.getUser)
+  .get(userController.getUser)
   .patch(userController.updateUser)
-
-
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('users'),
-    reviewController.createReview
-  );
+  .delete(userController.deleteUser);
 
 module.exports = router;
