@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('sulgify');
+const User = require('./userModel');
 
 const tourSchema = new mongoose.Schema({
     name: {
@@ -95,6 +97,14 @@ tourSchema.pre('save', function (next) {
     this.slug = slugify(this.name, { lower: true });
     next();
 });
+
+tourSchema.pre('save', async function (next) {
+    const guidesPromises = this.guides.map(async id => USer.findById(id));
+    this.guides = await Promise.all(guidesPromises)
+    next();
+});
+
+
 
 //tourSchema.pre('save', functional(next)) {
 // console.log('Will save document...');
