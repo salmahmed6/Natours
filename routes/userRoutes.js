@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
+const reviewController = require('./../controllers/reviewController.js');
 
 const router = express.Router();
 
@@ -25,5 +26,14 @@ router
   .route('/:id')
   //.get(userController.getUser)
   .patch(userController.updateUser)
+
+
+router
+  .route('/:tourId/reviews')
+  .post(
+    authController.protect,
+    authController.restrictTo('users'),
+    reviewController.createReview
+  );
 
 module.exports = router;
