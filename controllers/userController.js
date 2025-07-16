@@ -12,16 +12,6 @@ const filterObj = (obj, ...allowedFields) => {
 }
 
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.find();
-    console.log(typeof users);
-    res.status(200).json({
-        results: users.length,
-        data: {
-            users
-        }
-    });
-});
 
 exports.createUser = ((req, res) => {
     res.status(500).json({
@@ -29,6 +19,11 @@ exports.createUser = ((req, res) => {
         message: 'This route is not defined! Please use/ signup instead'
     });
 });
+
+exports.getMe = (req, res, next) => {
+    req.params.id = req.user.id;
+    next();
+}
 
 exports.updateMe = catchAsync(async (req, res, next) => {
     if (req.body.password || req.body.passwordConfirm) {
@@ -66,8 +61,9 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     });
 });
 
-
+exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
+
 //do not update passwords with this!
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
