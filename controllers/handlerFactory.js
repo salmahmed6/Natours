@@ -16,19 +16,19 @@ exports.deleteOne = Model => catchAsync(async (req, res, next) => {
 
 
 exports.updateOne = Model = catchAsync(async (req, res, next) => {
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
     });
 
-    if (!tour) {
-        return next(new AppError('No tour found with that ID', 400));
+    if (!doc) {
+        return next(new AppError('No document found with that ID', 400));
     }
 
     res.status(200).json({
         status: 'success',
         data: {
-            tour,
+            data: doc,
         },
     });
 });
