@@ -30,15 +30,6 @@ exports.createUser = ((req, res) => {
     });
 });
 
-exports.updateUser = catchAsync(async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true
-    });
-    res.status(200).json({
-    });
-});
-
 exports.updateMe = catchAsync(async (req, res, next) => {
     if (req.body.password || req.body.passwordConfirm) {
         return next(
@@ -75,5 +66,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     });
 });
 
+//do not update passwords with this!
+exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
 
