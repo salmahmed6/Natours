@@ -1,8 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const userController = require('./../controllers/userController');
-const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController.js');
+const userController = require('../controllers/userController.js');
+const authController = require('../controllers/authController.js');
+const reviewController = require('../controllers/reviewController.js');
 
 const router = express.Router();
 
