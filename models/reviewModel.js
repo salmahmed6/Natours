@@ -9,8 +9,7 @@ const reviewSchema = new mongoose.Schema(
         rating: {
             type: Number,
             min: 1,
-            max: 5,
-            required: [true, 'Ratting must be between 1 and 5']
+            max: 5
         },
         createdAt: {
             type: Date,
@@ -20,6 +19,11 @@ const reviewSchema = new mongoose.Schema(
             type: mongoose.Schema.ObjectId,
             ref: 'Tour',
             required: [true, 'Review must belong to a tour.']
+        },
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: [true, 'Review must belong to a user.']
         }
     }
 );
