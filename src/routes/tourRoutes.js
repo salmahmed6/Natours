@@ -7,14 +7,8 @@ const router = express.Router();
 
 // router.param('id', tourController.checkID);
 
-
-// router
-//     .route('/:tourId/reviews')
-//     .post(
-//         authController.protect,
-//         authController.restrictTo('users'),
-//         reviewController.createReview
-//     );
+//POST /tour/234fad4/reviews
+//GET /tour/234fad4/reviews
 
 router.use('/:tourId/reviews', reviewRouter);
 
@@ -36,6 +30,17 @@ router
         authController.restrictTo('admin', 'lead-guide', 'guide'),
         tourController.getMonthlyPlan
     );
+
+router
+    .route('/tours-within/:distance/center/:lating/unit/:unit')
+    .get(tourController.getToursWithin);
+
+// /tours-distance?distance=233,center=-40,45,unit=mi
+// /tours-distance/233/center/-40,45/unit/mi
+
+router
+    .route('/distances/:latlng/unit/:unit')
+    .get(tourController.getDistances)
 
 router
     .route('/')
