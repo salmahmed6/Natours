@@ -1,42 +1,23 @@
-doctype html
-html 
-    head 
-        meta(charset= 'UTF-8')
-        meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet' href="css/style.css")
-        link(rel='shortcut icon' type="image/png" href="img/favicon.png")
-        link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
-        title Natours | Natours | Exciting tours for adventurous people
+html(lang="en")
+  head
+    block head
+      meta(charset="UTF-8")
+      //- meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      link(rel="stylesheet", href="/css/style.css")
+      link(rel="shortcut icon", type="image/png", href="/img/forest.png")
+      link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap")
+      title Tours | #{title}
+  body(data-alert=`${alert ? alert : ''}`)
+      // HEADER
+      include _header
 
-    body 
-        //header
-        header.header 
-            nav.nav.nav--tours 
-                a.nav_el(href='#') All tours
-            .header_logo    
-                img(src='img/logo-white.png' alt='Natours logo')
-            nav.nav.nav--user 
-                //- a.nav_el(href='#') My bookings 
-                //- a.nav_el(href='#')
-                //-     img.nav_user-img(src='img/user.jpg' alt='User photo')
-                //-     span Salma 
-                button.nav_el Log in 
-                button.nav_el.nav_el--cta Sign up
+      // CONTENT
+      block content
+        h1 This is a placeholder heading
 
-        //Content
-        section.overview 
-            h1= tour 
-        
-        //Footer
-        footer.footer
-            .footer_logo 
-                img(src='img/logo-green.png' alt='Natour logo')
-            ul.footer_nav 
-                li: a(href='#') About us 
-                li: a(href='#') Download apps
-                li: a(href='#') Become a guide
-                li: a(href='#') Careers
-                li: a(href='#') Contact 
-            p.footer_copyright &copy: by salma. Feel free to use this project for your pwn purposes, Except producing own course or tutorial!
+      // FOOTER
+      include _footer
 
-
+      // SCRIPTS
+      script(src="https://js.stripe.com/v3/")
+      script(src="/js/bundle.js")
