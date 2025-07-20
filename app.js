@@ -16,7 +16,7 @@ const reviewRouter = require('./src/routes/reviewRoutes.js');
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src', 'views'));
 
 //1- global middlewares
 //serving static files
@@ -67,7 +67,10 @@ app.use((req, res, next) => {
 
 // 3- Routes
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Salma'
+  });
 })
 
 app.use('/api/v1/tours', tourRouter);
@@ -78,15 +81,22 @@ app.all('*', (req, res, next) => {
   next(new Error(`Can't find ${req.originalUrl} on this server!`));
 });
 
+// app.use((err, req, res, next) => {
+//   console.log(err.stack);
+
+//   err.statusCode = err.statusCode || 500;
+//   res.status = err.status || 'error';
+
+//   res.status(err.statusCode).json({
+//     status: err.status,
+//     message: err.message,
+//   });
+// });
+
 app.use((err, req, res, next) => {
-  console.log(err.stack);
-
-  err.statusCode = err.statusCode || 500;
-  res.status = err.status || 'error';
-
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
+  res.status(err.statusCode || 500).render('base', {
+    title: 'Error',
+    msg: err.message
   });
 });
 
