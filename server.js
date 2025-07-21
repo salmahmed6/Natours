@@ -9,7 +9,7 @@ process.on('uncaughtException', (err) => {
 });
 
 const app = require('./app');
-const { default: connectDB } = require('./config/data');
+const { default: connectDB } = require('./src/config/data');
 
 dotenv.config();
 

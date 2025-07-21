@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const slugify = require('sulgify');
+const slugify = require('slugify');
 //const User = require('./userModel');
 
 const tourSchema = new mongoose.Schema({
@@ -89,12 +89,12 @@ const tourSchema = new mongoose.Schema({
             ref: 'User'
         }
     ],
-    reviews: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Review'
-        }
-    ]
+    // reviews: [
+    //     {
+    //         type: mongoose.Schema.ObjectId,
+    //         ref: 'Review'
+    //     }
+    // ]
 },
     {
         toJSON: { virtuals: true },
