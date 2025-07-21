@@ -1,5 +1,5 @@
 const express = require('express');
-
+const viewsController = require('./../controllers/viewsController');
 
 const router =  express.Router();
 
@@ -11,13 +11,9 @@ router.get('/', (req, res) => {
     });
 })
 
-router.get('/overview', );
+router.get('/overview', viewsController.getOverview );
 
-router.get('/tour', (req, res) => {
-    res.status(200).render('tour' , {
-        title: 'The Forest Hiker Tour',
-    });
-});
+router.get('/tour', viewsController.getTour );
 
 
 module.exports = router;
