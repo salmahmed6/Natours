@@ -9,12 +9,13 @@ mapboxgl.accessToken =
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-122.084051, 37.385348],
-    zoom: 10,
-    interactive: false
+    scrollZoom: false
+    // center: [-122.084051, 37.385348],
+    // zoom: 10,
+    // interactive: false
 })
 
-const bounds = new mapboxgl.LatLngBounds();
+const bounds = new mapboxgl.LngLatBounds();
 
 locations.forEach(loc => {
     const el = document.createElement('div');
@@ -23,8 +24,25 @@ locations.forEach(loc => {
     new mapboxgl.Marker({
         element: el,
         anchor: 'bottom',
-    }).setLngLat(loc.coordinates).addTo(map);
+    })
+    .setLngLat(loc.coordinates)
+    .addTo(map);
+
+    new mapboxgl.Popup({
+        offset: 30
+    })
+        .setLngLat(loc.coordinates)
+        .setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`)
+        .addTo(map);
 
     bounds.extend(loc.coordinates);
 });
 
+map.fitBounds(bounds, {
+    padding: {
+            top: 200,
+            bottom: 200,
+            left: 100,
+            right: 100
+        }
+}); 
