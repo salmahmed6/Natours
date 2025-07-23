@@ -141,9 +141,10 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
     }
 
     // There is a logged in user
-    req.user = currentUser;
-    next();
+    res.locals.user = currentUser;
+    return next();
   }
+  next();
 });
 
 exports.restrictTo = (...roles) => {
