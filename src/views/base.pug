@@ -10,7 +10,7 @@ html(lang="en")
       
   body(data-alert=`${alert ? alert : ''}`)
       // HEADER
-      include _header
+      include header
 
       // CONTENT
       block content
@@ -20,5 +20,6 @@ html(lang="en")
       include _footer
 
       // SCRIPTS
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
       script(src="https://js.stripe.com/v3/")
       script(src="/js/bundle.js")
