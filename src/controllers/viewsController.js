@@ -40,6 +40,13 @@ exports.getTour = catchAsync( async(req, res, next) => {
     next();
 });
 
+<<<<<<< HEAD
+exports.getLoginForm = catchAsync ( async (req, res, next) => {
+    res.status(200).render('login', {
+        title: 'Login into your account'
+    });
+})
+=======
 exports.getLoginForm = catchAsync(async (req, res, next) => {
     
     res.status(200).render('login', {
@@ -69,3 +76,4 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
         user: updateUser
     });
 });
+>>>>>>> 7a47995a277e4b6c78763627d44aeb0743a09256
